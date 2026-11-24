@@ -1177,6 +1177,29 @@ input[type="date"] {
     display: none;
   }
 }
+/* Mobile form fix: prevent native iOS date/select minimum widths from overflowing grid cells. */
+.form-grid > label {
+  min-width: 0;
+  width: 100%;
+}
+.form-grid > label > input,
+.form-grid > label > select {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+  .form-grid > label > input,
+  .form-grid > label > select {
+    min-height: 48px;
+  }
+}
 @media print {
   * {
     box-shadow: none !important;
@@ -1233,22 +1256,49 @@ input[type="date"] {
   }
 }
 
+/* iOS Safari: native date control has an intrinsic minimum width. */
+.form-grid {
+  min-width: 0;
+}
 .form-grid > label {
   min-width: 0;
-  width: 100%;
+  max-width: 100%;
 }
-
-.form-grid > label > input,
-.form-grid > label > select {
+.date-input-clip {
+  display: block;
+  margin-top: 8px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 9px;
+}
+.date-input-clip input[type="date"] {
+  display: block;
+  margin-top: 0;
   width: 100%;
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
 }
-
+.date-input-clip input[type="date"]::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
+}
+.date-input-clip input[type="date"]::-webkit-datetime-edit {
+  min-width: 0;
+  padding: 0;
+}
 @media (max-width: 600px) {
   .form-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 15px;
+  }
+  .date-field,
+  .date-input-clip {
+    min-width: 0;
+    max-width: 100%;
   }
 }
